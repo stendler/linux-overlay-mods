@@ -1,0 +1,74 @@
+#!/bin/sh
+
+# ln -s ../Modding/sf-mods-overlay ~/bin/sf-mods-overlay
+
+script_working_dir="$(dirname $(realpath "$0"))"
+
+
+#main_dir="$script_working_dir/Starfield"
+modding_root="$HOME/Modding"
+main_dir="$modding_root/Starfield"
+modsroot="$main_dir/rootmods"
+modsdata="$main_dir/datamods"
+modsdocs="$main_dir/documentsdir"
+
+# default: ~/.local/share/Steam
+# see steam settings about storage
+steam_library="$HOME/SteamLibrary/SteamLibrary"
+
+# proton location may differ e.g. after moving game install or using a different library
+# default: $steam_library/steamapps/compatdata/1716740/pfx
+proton_pfx="$steam_library/steamapps/compatdata/1716740/pfx"
+
+gameroot="$steam_library/steamapps/common/Starfield"
+gamedata="$steam_library/steamapps/common/Starfield/Data"
+gamedocs="$proton_pfx/drive_c/users/steamuser/Documents/My Games/Starfield"
+
+function mount_overlay() {
+    echo "Mounting..."
+    "$script_working_dir/overlay-mods.sh" "$modsroot" "$gameroot"
+    "$script_working_dir/overlay-mods.sh" "$modsdata" "$gamedata"
+    "$script_working_dir/overlay-mods.sh" --writable "$modsdocs" "$gamedocs"
+}
+
+function unmount_overlay() {
+    echo "Unmounting..."
+    sudo umount "$gamedocs"
+    sudo umount "$gamedata"
+    sudo umount "$gameroot"
+}
+
+function exec_args() {
+    echo "original gamelaunch command: $gamelaunch_command"
+    game_binary="Starfield.exe"
+    sfse_binary="sfse_loader.exe"
+
+    echo "looking for sfse in: $gameroot/$sfse_binary"
+    if [ -f "$gameroot/$sfse_binary" ]; then
+        echo "Found sfse. Switching launch binary"
+        gamelaunch_command=$(echo "$gamelaunch_command" | sed "s/$game_binary/$sfse_binary/" )
+        echo "script extender gamelaunch command: $gamelaunch_command"
+    fi
+
+    # execute actual game
+    set -x
+    #exec $gamelaunch_command
+    $gamelaunch_command
+    set +x
+
+    # unmount again
+    echo "overlay: game is finished now unmount everything"
+}
+
+case $1 in
+    1) mount_overlay; ;;
+    0) unmount_overlay; ;;
+    --)
+    shift
+    mount_overlay
+    export gamelaunch_command="$@"
+    exec_args
+    unmount_overlay
+    ;;
+    *) mount_overlay ;;
+esac
