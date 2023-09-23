@@ -55,18 +55,23 @@ case "$OVERLAY_MODS_WRITABLE" in
 esac
 
 # get all lower dirs to mount - colon-separated
-layers=$(find "$modding_dir" -maxdepth 1 -mindepth 1 -type d -exec echo -n {}: \; | sed "s/:$//")
+layers=$(
+cd "$modding_dir"
+find -maxdepth 1 -mindepth 1 -type d -exec echo -n {}: \; | sed "s/:$//"
+)
 
 debug "Layers: $layers"
 
 # don't mount again if already mounted
 if ! mountpoint --quiet "$overlay_dir" ; then
 
+    $(
+    cd "$modding_dir"
     set -x
     sudo mount --type overlay overlay --options "defaults,auto,noatime,exec,lowerdir=$layers:$overlay_dir$opts_writable" "$overlay_dir"
-
+    exit $?
+    )
     result=$?
-    set +x
     if [ ! $result -eq 0 ]; then
         debug "mount error code: $result"
         exit $result
