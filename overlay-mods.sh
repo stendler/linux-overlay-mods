@@ -57,7 +57,7 @@ esac
 # get all lower dirs to mount - colon-separated
 layers=$(
 cd "$modding_dir"
-find -maxdepth 1 -mindepth 1 -type d -exec echo -n {}: \; | sed "s/:$//"
+find -maxdepth 1 -mindepth 1 -type d -exec sh -c "echo -n {}: | sed 's|^\./||'" \; | sed "s/:$//"
 )
 
 debug "Layers: $layers"
