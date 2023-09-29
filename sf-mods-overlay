@@ -6,23 +6,22 @@ script_working_dir="$(dirname $(realpath "$0"))"
 
 
 #main_dir="$script_working_dir/Starfield"
-modding_root="$HOME/Modding"
-main_dir="$modding_root/Starfield"
+main_dir="${MODDING_ROOT:=$HOME/Modding}/Starfield"
 modsroot="$main_dir/rootmods"
 modsdata="$main_dir/datamods"
 modsdocs="$main_dir/documentsdir"
 
 # default: ~/.local/share/Steam
 # see steam settings about storage
-steam_library="$HOME/SteamLibrary/SteamLibrary"
+: ${STEAM_LIBRARY:=$HOME/SteamLibrary/SteamLibrary}
 
 # proton location may differ e.g. after moving game install or using a different library
-# default: $steam_library/steamapps/compatdata/1716740/pfx
-proton_pfx="$steam_library/steamapps/compatdata/1716740/pfx"
+# default: $STEAM_LIBRARY/steamapps/compatdata/1716740/pfx
+: ${PROTON_PFX:=$STEAM_LIBRARY/steamapps/compatdata/1716740/pfx}
 
-gameroot="$steam_library/steamapps/common/Starfield"
-gamedata="$steam_library/steamapps/common/Starfield/Data"
-gamedocs="$proton_pfx/drive_c/users/steamuser/Documents/My Games/Starfield"
+gameroot="$STEAM_LIBRARY/steamapps/common/Starfield"
+gamedata="$STEAM_LIBRARY/steamapps/common/Starfield/Data"
+gamedocs="$PROTON_PFX/drive_c/users/steamuser/Documents/My Games/Starfield"
 
 function mount_overlay() {
     echo "Mounting..."
