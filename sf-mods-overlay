@@ -26,9 +26,9 @@ gamedocs="$proton_pfx/drive_c/users/steamuser/Documents/My Games/Starfield"
 
 function mount_overlay() {
     echo "Mounting..."
-    "$script_working_dir/overlay-mods.sh" "$modsroot" "$gameroot"
-    "$script_working_dir/overlay-mods.sh" "$modsdata" "$gamedata"
-    "$script_working_dir/overlay-mods.sh" --writable "$modsdocs" "$gamedocs"
+    "$script_working_dir/overlay-mods" "$modsroot" "$gameroot"
+    "$script_working_dir/overlay-mods" "$modsdata" "$gamedata"
+    "$script_working_dir/overlay-mods" --writable "$modsdocs" "$gamedocs"
 }
 
 function unmount_overlay() {
