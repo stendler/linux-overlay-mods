@@ -13,7 +13,7 @@ modsdocs="$main_dir/documentsdir"
 
 # default: ~/.local/share/Steam
 # see steam settings about storage
-: ${STEAM_LIBRARY:=$HOME/SteamLibrary/SteamLibrary}
+: ${STEAM_LIBRARY:=$HOME/.local/share/Steam}
 
 # proton location may differ e.g. after moving game install or using a different library
 # default: $STEAM_LIBRARY/steamapps/compatdata/1716740/pfx
