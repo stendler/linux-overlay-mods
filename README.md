@@ -36,7 +36,7 @@ sf-mods-overlay 0
 This mounts mods in `rootmods`, `datamods` and `documentsdir` in `$MODDING_ROOT/Starfield` (default: `$HOME/Modding/Starfield`) over their respective targets in `$STEAM_LIBARY` (default: `$HOME/.local/share/Steam`) or `$PROTON_PFX` (default: `$STEAM_LIBRARY/steamapps/compatdata/1716740/pfx`).
 Only the documentsdir within the proton prefix is mounted writable (e.g. for save games), so Steam won't be able to update the game while this mount is active.
 
-- <details><summary>Example rootmods structure (click to show)</summary>
+<details><summary>Example rootmods structure (click to show)</summary>
 
 ```
 $ lsd -gR --icon-theme=unicode rootmods
@@ -51,7 +51,8 @@ rootmods/1. All In One Motion Blur Full OFF-290-1v1-1693729795/ORG-Settings:
 ```
 
 </details>
-- <details><summary>Example datamods structure (click to show)</summary>
+
+<details><summary>Example datamods structure (click to show)</summary>
 
 (reduced output for some brevity; zip files are ignored)
 
@@ -135,7 +136,8 @@ datamods/starui-config/Interface:
 ```
 
 </details>
-- <details><summary>Example documentsdir structure (click to show)</summary>
+
+<details><summary>Example documentsdir structure (click to show)</summary>
 
 ```
 $ lsd -gR --icon-theme=unicode documentsdir
