@@ -10,7 +10,7 @@ echo $(
 tmp_root=$(mktemp --directory --tmpdir=/tmp mount-opt-limit-bench.XXXXXXXXXXX)
 echo "temp root: $tmp_root" >&2
 mkdir -p "$tmp_root/target" # mount target
-: ${mount_step:=63}
+: ${mount_step:=50} # minimum 3
 count=$((9 + $mount_step)) # lowerdir=dir:dir
 
 function get_name() {
@@ -51,10 +51,10 @@ echo "Limit overreached at $(($count + 1 + $mount_step))" >&2
 
 until overlay_mount "$lower_dirs:$current_dir"; do
     mount_step=$(($mount_step - 1))
-    echo "count=$count mount_step=$mount_step" >&2
+    #echo "count=$count mount_step=$mount_step" >&2
     current_dir="$(get_name $mount_step)"
     if [ -z "$current_dir" ]; then
-        echo "Aborted... at lowerdir=$lower_dirs" >&2
+        echo "Aborted... reached 0." >&2
         break
     fi
 
