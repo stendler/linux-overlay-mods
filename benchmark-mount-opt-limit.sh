@@ -1,5 +1,10 @@
 #!/bin/bash
 
+# script to find out the maximum length for mount options with overlayfs
+# usually 4096 but may be significantly smaller within containers
+
+
+# run in subshell so change directory is not applied to executing shell
 echo $(
 # create a temporary dir in /tmp for further creations of dirs to mount
 tmp_root=$(mktemp --directory --tmpdir=/tmp mount-opt-limit-bench.XXXXXXXXXXX)
